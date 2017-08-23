@@ -9,13 +9,26 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.navigine.naviginedemo.R;
 import com.navigine.naviginedemo.SplashActivity;
 import com.navigine.naviginedemo.login.helpers.InputValidation;
-import com.navigine.naviginedemo.login.sql.DatabaseHelper;
+
+import com.navigine.naviginedemo.login.model.Login;
+import com.navigine.naviginedemo.login.model.User;
+import com.navigine.naviginedemo.login.remote.LoginClient;
+import com.navigine.naviginedemo.login.remote.UserClient;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+//import com.navigine.naviginedemo.login.sql.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = LoginActivity.this;
@@ -33,7 +46,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatTextView textViewLinkRegister;
 
     private InputValidation inputValidation;
-    private DatabaseHelper databaseHelper;
+   // private DatabaseHelper databaseHelper;
+
+    // added in when integrating with the Retrofit call
+    private String email = "";
+    private String password = "";
+    Boolean loginSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +95,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * This method is to initialize objects to be used
      */
     private void initObjects() {
-        databaseHelper  = new DatabaseHelper(activity);
+       // databaseHelper  = new DatabaseHelper(activity);
         inputValidation = new InputValidation(activity);
 
     }
 
     /**
      * This implemented method is to listen the click on view
-     *
-     * @param v
      */
     @Override
     public void onClick(View v) {
@@ -95,8 +111,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
-                Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intentRegister);
+//                Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
+//                startActivity(intentRegister);
                 break;
         }
     }
@@ -115,17 +131,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
+        email = textInputEditTextEmail.getText().toString().trim();
+        password = textInputEditTextPassword.getText().toString().trim();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        LoginClient.Factory
+                .getInstance()
+                .getUser(email, password)
+                .enqueue(new Callback<Login>() {
+                             @Override
+                             public void onResponse(Call<Login> call, Response<Login> response) {
+                                 // if http success = 1, login and Call next activity
+                                 // note here that there is a difference (of JSON layout) between
+                                 // what is sent back by the server for a successful/unsuccessful logins
+                                 if((response.body().getSuccess().equals("1"))) {
+                                     loginSuccess = true;
+                                     Intent navigineIntent = new Intent(activity, SplashActivity.class);
+                                     startActivity(navigineIntent);
+                                 } else {
+                                     loginSuccess = false;
+                                 }
+                                 // test to see if the httpStatus equals 200 from the above call.
+                                 Toast.makeText(getApplication().getBaseContext(), loginSuccess.toString(), Toast.LENGTH_SHORT).show();
+                             }
+
+                             @Override
+                             public void onFailure(Call<Login> call, Throwable t) {
+                                 Log.e("Failed", t.getMessage());
+                                 Toast.makeText(getApplicationContext(), "Network Error, Try Again", Toast.LENGTH_SHORT).show();
+                                 // textView_points.setText("UserClient call has failed");
+                             }
+                         });
+
+
+        if (loginSuccess) {
 
               Intent navigineIntent = new Intent(activity, SplashActivity.class);
               startActivity(navigineIntent);
-
-//            Intent accountsIntent = new Intent(activity, UsersListActivity.class);
-//            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-//            emptyInputEditText();
-//            startActivity(accountsIntent);
-
 
         } else {
             // Snack Bar to show success message that record is wrong
@@ -139,5 +184,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void emptyInputEditText() {
         textInputEditTextEmail.setText(null);
         textInputEditTextPassword.setText(null);
+    }
+
+
+    public void checkUserLogin() {
+
     }
 }

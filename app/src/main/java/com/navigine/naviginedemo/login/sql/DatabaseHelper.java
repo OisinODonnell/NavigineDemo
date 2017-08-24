@@ -105,7 +105,7 @@
 //        // query the user table
 //        /**
 //         * Here query function is used to fetch records from user table this function works like we use sql query.
-//         * SQL query equivalent to this query function is
+////         * SQL query equivalent to this query function is
 //         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
 //         */
 //        Cursor cursor = db.query(TABLE_USER, //Table to query

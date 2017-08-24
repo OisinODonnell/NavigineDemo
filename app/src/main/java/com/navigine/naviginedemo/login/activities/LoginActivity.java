@@ -19,9 +19,7 @@ import com.navigine.naviginedemo.SplashActivity;
 import com.navigine.naviginedemo.login.helpers.InputValidation;
 
 import com.navigine.naviginedemo.login.model.Login;
-import com.navigine.naviginedemo.login.model.User;
 import com.navigine.naviginedemo.login.remote.LoginClient;
-import com.navigine.naviginedemo.login.remote.UserClient;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -111,8 +109,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
-//                Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
-//                startActivity(intentRegister);
+                Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intentRegister);
                 break;
         }
     }

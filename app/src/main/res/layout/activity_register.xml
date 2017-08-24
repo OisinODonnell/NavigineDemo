@@ -17,16 +17,48 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayoutName"
+            android:id="@+id/textInputLayoutFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/textInputEditTextName"
+                android:id="@+id/textInputEditTextFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_name"
+                android:hint="@string/hint_firstName"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textInputEditTextSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_surname"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textInputEditTextPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_phone"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
@@ -62,7 +94,9 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
-        </android.support.design.widget.TextInputLayout>
+             </android.support.design.widget.TextInputLayout>
+
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayoutConfirmPassword"
@@ -79,6 +113,33 @@
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <Spinner
+                android:id="@+id/genderSpin"
+                android:popupTheme="@color/cardview_dark_background"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputYob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+        <Spinner
+            android:id="@+id/yearspin"
+            android:popupTheme="@color/cardview_dark_background"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+
+
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/appCompatButtonRegister"

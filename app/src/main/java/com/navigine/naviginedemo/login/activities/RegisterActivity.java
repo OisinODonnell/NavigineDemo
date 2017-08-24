@@ -74,12 +74,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
 
+
     // added in when integrating with the Retrofit call
     private String firstName = "";
     private String surname = "";
     private String password = "";
     private String phone = "";
     private String gender = "";
+    private String yobString = "";
     private int yob = 0;
     private String emailAddress;
     Boolean registerSuccess = false;
@@ -104,6 +106,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Spinner spinYear = (Spinner)findViewById(R.id.yearspin);
         spinYear.setAdapter(adapter);
+
+
+
+
+
 
 
         // Gender Spinner
@@ -153,6 +160,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initListeners() {
         appCompatButtonRegister.setOnClickListener(this);
         appCompatTextViewLoginLink.setOnClickListener(this);
+
+//        spinYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//                Object item = parent.getItemAtPosition(pos);
+//            }
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
     }
 
@@ -233,9 +248,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //}
 
 
+
+
 //        // These need to be edited to pull in all the data to populate for the call below...
 //        emailAddress = textInputEditTextEmail.getText().toString().trim();
 //        password = textInputEditTextPassword.getText().toString().trim();
+
+
 
          firstName    = textInputEditTextFirstName.getText().toString().trim();
          surname      = textInputEditTextSurname.getText().toString().trim();
@@ -243,8 +262,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
          phone        = textInputEditTextPhone.getText().toString().trim();
          emailAddress = textInputEditTextEmail.getText().toString().trim();
 
-         gender = "Male";
-         yob = 1929;
+         Spinner mySpinner=(Spinner) findViewById(R.id.genderSpin);
+         gender = mySpinner.getSelectedItem().toString();
+
+         Spinner mySpinner2=(Spinner) findViewById(R.id.yearspin);
+         yobString = mySpinner2.getSelectedItem().toString();
+
+         yob = Integer.parseInt(yobString);
+
+         //yob = 1929;
 
 
 //        firstName     = "Sherlock";

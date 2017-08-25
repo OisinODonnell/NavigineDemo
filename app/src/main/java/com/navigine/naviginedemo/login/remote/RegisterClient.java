@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 
 public interface RegisterClient {
 
-    String BASE_URL = "http://192.168.56.1:8080/";
+    String BASE_URL = "http://192.168.0.109:8080/";
 
     @GET("Login/register/Mobile/{firstname}/{surname}/{password}/{phone}/{gender}/{yob}/{emailAddress}")
     Call<Register> getRegister(@Path("firstname") String firstname,
